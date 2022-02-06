@@ -8,6 +8,12 @@ class Node {
 class LinkedList {
     constructor(value) {
         const newNode = new Node(value);
+        this.head = newNode;
+        this.tail = newNode;
+        this.length = 1; 
+    }
+    push(value) {
+        const newNode = new Node(value);
         if (!this.head) {
             this.head = newNode;
             this.tail = newNode;
@@ -15,9 +21,11 @@ class LinkedList {
             this.tail.next = newNode;
             this.tail = newNode;
         }
-        this.length = 1;
+        this.length++;
+        return this;
     }
 }
 
-const testLinkedList = new LinkedList(6);
-console.log(testLinkedList);
+let myLinkedList = new LinkedList(6);
+myLinkedList.push(4);
+console.log(myLinkedList);

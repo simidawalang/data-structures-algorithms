@@ -73,9 +73,72 @@ class DoublyLinkedList {
         this.length--;
         return temp; 
     }
+
+    get(index) {
+        if(index < 0 || index >= this.length) return undefined;
+
+        let temp = this.head;
+        if(index < this.length/2) {
+            for (let i = 0; i < index; i++) {
+                temp = temp.next;
+            }
+        } else {
+            temp = this.tail;
+            for (let i = this.length - 1; i > index; i--) {
+                temp = temp.prev;
+            }
+        }
+        return temp;
+    }
+
+    set(index, value) {
+        let temp = this.get(index);
+        if(temp) {
+            temp.value = value;
+            return true;
+        }
+        return false;
+    }
+
+    insert(index, value) {
+        if(index < 0 || index > this.length) return false;
+        if(index === 0) return this.unshift(value);
+        if(index === this.length) return this.push(value);
+        
+
+        const newNode = new Node(value);
+        const before = this.get(index - 1);
+        const after = before.next;
+
+        before.next = newNode;
+        newNode.prev = before;
+        newNode.next = after;
+        after.prev = newNode;
+
+        this.length++
+    }
+
+    remove(index) {
+        if(index === 0) return this.shift();
+        if(index === this.length - 1) return this.pop();
+        if(index < 0 || index >= this.length) return undefined;
+
+        let temp = this.get(index);
+
+        temp.prev.next = temp.next;
+        temp.next.prev = temp.prev;
+        temp.next = null;
+        temp.prev = null;
+
+        this.length--;
+        return temp;
+    }
 }
 
 let myDoublyLinkedList = new DoublyLinkedList(7);
 myDoublyLinkedList.push(2);
 myDoublyLinkedList.unshift(3);
+myDoublyLinkedList.set(0,99);
+myDoublyLinkedList.insert(1, 55);
+myDoublyLinkedList.remove(2);
 console.log(myDoublyLinkedList);
